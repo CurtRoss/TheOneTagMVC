@@ -6,9 +6,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using WebApplication1.Models;
+using TheOneTag.WebAPI.Models;
 
-namespace WebApplication1.Controllers
+namespace TheOneTag.WebAPI.Controllers
 {
     [Authorize]
     public class ManageController : Controller

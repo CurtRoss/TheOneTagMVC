@@ -6,9 +6,9 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using TheOneTag.Data;
-using WebApplication1.Models;
+using TheOneTag.WebAPI.Models;
 
-namespace WebApplication1
+namespace TheOneTag.WebAPI
 {
     public partial class Startup
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApplication1.Models
+namespace TheOneTag.WebAPI.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
@@ -83,7 +83,7 @@ namespace WebApplication1.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int ZipCode { get; set; }
-        public int PdgaNumber { get; set; }
+        public int? PdgaNum { get; set; }
     }
 
     public class ResetPasswordViewModel

@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Security.Claims;
@@ -18,6 +19,13 @@ namespace TheOneTag.Data
             // Add custom user claims here
             return userIdentity;
         }
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+        [Required]
+        public int ZipCode { get; set; }
+        public int? PdgaNum { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -33,6 +41,7 @@ namespace TheOneTag.Data
         }
 
         public DbSet<League> Leagues { get; set; }
+        public DbSet<UserLeague> UserLeagues { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

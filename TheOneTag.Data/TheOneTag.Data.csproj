@@ -56,11 +56,29 @@
   <ItemGroup>
     <Compile Include="IdentityModels.cs" />
     <Compile Include="League.cs" />
+    <Compile Include="Migrations\202104020004537_InitialCreate.cs" />
+    <Compile Include="Migrations\202104020004537_InitialCreate.Designer.cs">
+      <DependentUpon>202104020004537_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104020030469_InitialMigration.cs" />
+    <Compile Include="Migrations\202104020030469_InitialMigration.Designer.cs">
+      <DependentUpon>202104020030469_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserLeague.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202104020004537_InitialCreate.resx">
+      <DependentUpon>202104020004537_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104020030469_InitialMigration.resx">
+      <DependentUpon>202104020030469_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

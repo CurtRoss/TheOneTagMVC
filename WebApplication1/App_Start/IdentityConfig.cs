@@ -11,9 +11,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using TheOneTag.Data;
-using WebApplication1.Models;
+using TheOneTag.WebAPI.Models;
 
-namespace WebApplication1
+namespace TheOneTag.WebAPI
 {
     public class EmailService : IIdentityMessageService
     {

@@ -9,9 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TheOneTag.Data;
-using WebApplication1.Models;
+using TheOneTag.WebAPI.Models;
 
-namespace WebApplication1.Controllers
+namespace TheOneTag.WebAPI.Controllers
 {
     [Authorize]
     public class AccountController : Controller
@@ -152,7 +152,7 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, PdgaNum = model.PdgaNum, ZipCode = model.ZipCode };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
