@@ -11,9 +11,12 @@ namespace TheOneTag.Data
     {
         [Key]
         public int LeagueId { get; set; }
+
+        [Required]
+        public Guid OwnerId { get; set; }
         [Required]
         public string LeagueName { get; set; }
-        public int? LeaguePassword { get; set; }
+        public string LeaguePassword { get; set; }
         [Required]
         public int ZipCode { get; set; }
         [Required]

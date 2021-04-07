@@ -54,11 +54,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LeagueService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TheOneTag.Data\TheOneTag.Data.csproj">
+      <Project>{34848b34-6f5c-42ad-814f-58ec5fd73ab3}</Project>
+      <Name>TheOneTag.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TheOneTag.Models\TheOneTag.Models.csproj">
+      <Project>{d647a93e-a8cb-4e5e-a616-79b12d446223}</Project>
+      <Name>TheOneTag.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
