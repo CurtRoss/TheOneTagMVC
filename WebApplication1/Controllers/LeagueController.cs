@@ -105,6 +105,29 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Index");
         }
 
+        [ActionName("AddPlayer"), Authorize]
+        public ActionResult AddPlayerToLeague(int id)
+        {
+            var service = CreateLeagueService();
+
+            if (!service.AddPlayerToLeague(id))
+            {
+                TempData["NotSaved"] = "Player is already in league.";
+                return RedirectToAction("Index");
+            }
+
+            TempData["SaveResult"] = "Player was added to league.";
+            return RedirectToAction("Index");
+        }
+
+        //[ActionName("PlayRound"), Authorize]
+        //public void PlayLeagueRound(int id)
+        //{
+        //    var service = CreateLeagueService();
+
+        //    service.PlayARound(id);
+        //}
+
         private LeagueService CreateLeagueService()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());

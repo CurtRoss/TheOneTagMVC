@@ -15,7 +15,7 @@ namespace TheOneTag.WebAPI.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "This app has been designed to keep track of all your bag tag leagues that you play in.";
 
             return View();
         }

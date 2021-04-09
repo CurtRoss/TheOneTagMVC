@@ -24,5 +24,6 @@ namespace TheOneTag.Data
         public DateTimeOffset? LeagueTermination { get; set; }
         [Required]
         public bool PrivateOrPublic { get; set; }
+        
     }
 }

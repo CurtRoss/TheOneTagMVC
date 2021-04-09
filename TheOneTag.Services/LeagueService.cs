@@ -109,5 +109,47 @@ namespace TheOneTag.Services
                 return ctx.SaveChanges() == 1;
             }
         }
+
+        public bool AddPlayerToLeague(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var league = ctx.Leagues.Find(id);
+
+                if (league == null)
+                    return false;
+
+                var query =
+                    ctx
+                    .UserLeagues
+                    .Where(e => e.LeagueId == league.LeagueId && e.UserId == _userId.ToString());
+
+                var query2 =
+                    ctx
+                    .UserLeagues
+                    .Where(e => e.LeagueId == league.LeagueId);
+
+                var howManyPlayers = query2.Count();
+                if (query.Count() == 0)
+                {
+                    var entity = new UserLeague()
+                    {
+                        LeagueId = id,
+                        UserId = _userId.ToString(),
+                        Ranking = howManyPlayers + 1
+                    };
+                    ctx.UserLeagues.Add(entity);
+
+                    return ctx.SaveChanges() == 1;
+
+                }
+                return false;
+
+            }
+        }
+        //public bool PlayARound(PlayARound model)
+        //{
+
+        //}
     }
 }

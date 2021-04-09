@@ -71,4 +71,12 @@ namespace TheOneTag.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
     }
+
+    //public class PlayARound
+    //{
+    //    //[Required, Display(Name = "League Id")]
+    //    //public int LeagueId { get; set; }
+
+
+    //}
 }
