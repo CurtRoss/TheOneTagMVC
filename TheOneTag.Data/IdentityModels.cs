@@ -26,6 +26,9 @@ namespace TheOneTag.Data
         [Required]
         public int ZipCode { get; set; }
         public int? PdgaNum { get; set; }
+
+        public bool IsPlayingRound { get; set; }
+        public int Score { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -54,6 +57,8 @@ namespace TheOneTag.Data
                 .Add(new IdentityUserLoginConfiguration())
                 .Add(new IdentityUserRoleConfiguration());
         }
+
+        public System.Data.Entity.DbSet<TheOneTag.Data.ApplicationUser> ApplicationUsers { get; set; }
     }
 
     public class IdentityUserLoginConfiguration : EntityTypeConfiguration<IdentityUserLogin>

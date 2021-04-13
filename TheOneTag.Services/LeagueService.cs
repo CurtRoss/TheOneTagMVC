@@ -147,9 +147,12 @@ namespace TheOneTag.Services
 
             }
         }
-        //public bool PlayARound(PlayARound model)
-        //{
+        public bool PlayARound(PlayARound model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
 
-        //}
+            }
+        }
     }
 }

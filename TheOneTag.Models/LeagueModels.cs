@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheOneTag.Data;
 
 namespace TheOneTag.Models
 {
@@ -72,11 +73,12 @@ namespace TheOneTag.Models
         public string Password { get; set; }
     }
 
-    //public class PlayARound
-    //{
-    //    //[Required, Display(Name = "League Id")]
-    //    //public int LeagueId { get; set; }
+    public class PlayARound
+    {
+        [Required, Display(Name = "League Id")]
+        public int LeagueId { get; set; }
+        public List<string> UserIds { get; set; } = new List<string>();
+        public List<ApplicationUser> AppUsers { get; set; } = new List<ApplicationUser>();
 
-
-    //}
+    }
 }

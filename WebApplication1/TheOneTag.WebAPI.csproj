@@ -240,6 +240,7 @@
     <Content Include="Views\League\Details.cshtml" />
     <Content Include="Views\League\Edit.cshtml" />
     <Content Include="Views\League\Delete.cshtml" />
+    <Content Include="Views\League\PlayLeagueRound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

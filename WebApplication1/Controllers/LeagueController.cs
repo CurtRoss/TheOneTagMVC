@@ -119,14 +119,20 @@ namespace WebApplication1.Controllers
             TempData["SaveResult"] = "Player was added to league.";
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public ActionResult PlayLeagueRound()
+        {
+            return View();
+        }
 
-        //[ActionName("PlayRound"), Authorize]
-        //public void PlayLeagueRound(int id)
-        //{
-        //    var service = CreateLeagueService();
 
-        //    service.PlayARound(id);
-        //}
+        [HttpPost, ActionName("PlayRound"), Authorize]
+        public ActionResult PlayLeagueRound()
+        {
+            var service = CreateLeagueService();
+
+            service.PlayARound(id);
+        }
 
         private LeagueService CreateLeagueService()
         {
