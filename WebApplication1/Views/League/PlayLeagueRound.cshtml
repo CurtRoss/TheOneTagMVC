@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TheOneTag.Data.ApplicationUser>
+﻿@model IEnumerable<TheOneTag.Models.PlayerListItem>
 
 @{
     ViewBag.Title = "PlayLeagueRound";
@@ -12,41 +12,75 @@
 <table class="table">
     <tr>
         <th>
+
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.FirstName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.LastName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IsPlayingRound)
+            @Html.DisplayNameFor(model => model.LeagueRanking)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Score)
+            @Html.DisplayNameFor(model => model.IsStarred)
         </th>
-
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.FirstName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.LastName)
-    </td>
-    <th>
-        @Html.DisplayFor(modelItem => item.IsPlayingRound)
-    </th>
-    <th>
-        @Html.DisplayFor(modelItem => item.Score)
-    </th>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-    </td>
-</tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.HiddenFor(modelItem => item.PlayerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeagueRanking)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsStarred, new { Id = item.PlayerId })
+
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
 
 </table>
+
+@section scripts{
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $("i[data-toggle='star']")
+                .css({ "cursor": "pointer" })
+                .click(function (e) {
+                    var target = $(e.target);
+                    var playerId = target.attr("data-id")
+                    var starSet = target.hasClass("glyphicon-star")
+
+                    $.ajax({
+                        method: starSet ? "DELETE" : "PUT",
+                        url: "/api/Player/" + playerId + "/star",
+                        data: null
+                    })
+                        .done(function (r) {
+                            target.removeClass();
+                            target.addClass("glyphicon " + (starSet ? "glyphicon-star-empty" : "glyphicon-star"));
+                        })
+                        .fail(function (r) {
+                            alert("Failed to change star status");
+                        });
+                });
+        });
+    </script>
+}

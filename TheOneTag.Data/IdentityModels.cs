@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -26,8 +27,8 @@ namespace TheOneTag.Data
         [Required]
         public int ZipCode { get; set; }
         public int? PdgaNum { get; set; }
-
-        public bool IsPlayingRound { get; set; }
+        [DefaultValue(false)]
+        public bool IsStarred { get; set; }
         public int Score { get; set; }
     }
 
@@ -58,7 +59,7 @@ namespace TheOneTag.Data
                 .Add(new IdentityUserRoleConfiguration());
         }
 
-        public System.Data.Entity.DbSet<TheOneTag.Data.ApplicationUser> ApplicationUsers { get; set; }
+        
     }
 
     public class IdentityUserLoginConfiguration : EntityTypeConfiguration<IdentityUserLogin>

@@ -81,4 +81,21 @@ namespace TheOneTag.Models
         public List<ApplicationUser> AppUsers { get; set; } = new List<ApplicationUser>();
 
     }
+
+    public class PlayerListItem
+    {
+        public string PlayerId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int LeagueRanking { get; set; }
+        [UIHint("Starred")]
+        [Display(Name = "Is Playing this Round?")]
+        public bool IsStarred { get; set; }
+
+    }
+    public class PlayerEdit
+    {
+        public string PlayerId { get; set; }
+        public bool IsStarred { get; set; }
+    }
 }

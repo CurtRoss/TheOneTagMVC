@@ -77,6 +77,28 @@ namespace TheOneTag.Services
             }
         }
 
+        public IEnumerable<PlayerListItem> GetPlayerListByLeagueId(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx
+                    .UserLeagues
+                    .Where(e => e.LeagueId == id)
+                    .Select(
+                    e =>
+                    new PlayerListItem
+                    {
+                        PlayerId = e.UserId,
+                        FirstName = e.User.FirstName,
+                        LastName = e.User.LastName,
+                        LeagueRanking = e.Ranking,
+                        IsStarred = e.User.IsStarred
+                    }
+                    );
+                return query.ToArray();
+            }
+        }
+
         public bool UpdateLeague(LeagueEdit model)
         {
             using (var ctx = new ApplicationDbContext())
@@ -147,12 +169,40 @@ namespace TheOneTag.Services
 
             }
         }
-        public bool PlayARound(PlayARound model)
+        public bool PlayLeagueRound()
         {
             using (var ctx = new ApplicationDbContext())
             {
-
+                return true;
             }
         }
+
+        public ApplicationUser GetPlayerById(string id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx
+                    .Users
+                    .Single(e => e.Id == id);
+
+                return entity;
+                    
+            }
+        }
+        public bool UpdatePlayer(PlayerEdit model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                    .Users
+                    .Single(e => e.Id == model.PlayerId);
+
+                entity.IsStarred = model.IsStarred;
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
     }
 }

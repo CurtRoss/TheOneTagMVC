@@ -119,19 +119,26 @@ namespace WebApplication1.Controllers
             TempData["SaveResult"] = "Player was added to league.";
             return RedirectToAction("Index");
         }
-        [HttpGet]
-        public ActionResult PlayLeagueRound()
+        
+        public ActionResult PlayLeagueRound(int id)
         {
-            return View();
+            //User needs to checkmark all players who are playing the round, return PlayRound Model with all info added for each player playing.
+            var service = CreateLeagueService();
+            var model = service.GetPlayerListByLeagueId(id);
+            return View(model);
+            
         }
 
 
-        [HttpPost, ActionName("PlayRound"), Authorize]
-        public ActionResult PlayLeagueRound()
+        [HttpPost, ActionName("PlayLeagueRound"), Authorize]
+        public ActionResult PlayLeagueRound(PlayARound model)
         {
+            //This should take the PlayRound model and use the information to reorder the players and edit the players ranking in the UserLeague junction table entity.
             var service = CreateLeagueService();
 
-            service.PlayARound(id);
+            service.PlayLeagueRound();
+            //I want to return a view of the League with the Players in their new ranking.
+            return RedirectToAction("Details");
         }
 
         private LeagueService CreateLeagueService()
