@@ -23,5 +23,6 @@ namespace TheOneTag.Data
 
         [Required]
         public int Ranking { get; set; }
+        public int RoundScore { get; set; }
     }
 }

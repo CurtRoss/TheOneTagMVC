@@ -118,6 +118,7 @@ namespace TheOneTag.Services
             }
         }
 
+
         public bool DeleteLeague(int leagueId)
         {
             using (var ctx = new ApplicationDbContext())
@@ -169,11 +170,71 @@ namespace TheOneTag.Services
 
             }
         }
-        public bool PlayLeagueRound()
+        public bool UpdateUserLeagueScore(UserLeagueEdit model,string userId)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                return true;
+                var entity =
+                    ctx
+                    .UserLeagues
+                    .SingleOrDefault
+                    (e => e.UserId == userId && e.User.IsStarred == true);
+
+
+                if(entity is null)
+                {
+                    return false;
+                }
+                //var scoreList = new List<int>();
+                //foreach (var item in model)
+                //{
+                    
+                //    scoreList.Add(item.RoundScore);
+                //}
+
+
+                //foreach (UserLeague ul in query)
+                //{
+                    entity.RoundScore = model.Score;
+                return ctx.SaveChanges() == 1;
+                //}
+                //return false;
+            }
+        }
+        public bool PlayLeagueRound(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx
+                    .UserLeagues
+                    .Where(e => e.User.IsStarred == true && e.LeagueId == id);
+                List<UserLeague> testing = query.ToList();
+                
+                var playerList = new List<ApplicationUser>();
+                var rankList = new List<int>();
+                var league = ctx.UserLeagues.Find(id);
+
+                foreach (var ul in query)
+                {
+                    playerList.Add(ul.User);
+                    rankList.Add(ul.User.Score);
+                }
+
+                //Sort the Ranks of the players
+                rankList.Sort();
+
+                //Take all instances of UserLeague and sort them by score
+                var newList = query.ToList();
+                newList.Sort((x, y) => x.User.Score.CompareTo(y.User.Score));
+
+
+                //for each player, give them their new ranking based on their score
+                for (int i = 0; i < playerList.Count; i++)
+                {
+                    newList[i].Ranking = rankList[i];
+                }
+
+                return ctx.SaveChanges() == 1;
             }
         }
 
@@ -186,7 +247,7 @@ namespace TheOneTag.Services
                     .Single(e => e.Id == id);
 
                 return entity;
-                    
+
             }
         }
         public bool UpdatePlayer(PlayerEdit model)

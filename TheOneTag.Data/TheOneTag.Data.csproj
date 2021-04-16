@@ -92,6 +92,10 @@
     <Compile Include="Migrations\202104132334543_AddedStar.Designer.cs">
       <DependentUpon>202104132334543_AddedStar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104152254192_AddedScore.cs" />
+    <Compile Include="Migrations\202104152254192_AddedScore.Designer.cs">
+      <DependentUpon>202104152254192_AddedScore.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserLeague.cs" />
@@ -118,6 +122,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104132334543_AddedStar.resx">
       <DependentUpon>202104132334543_AddedStar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104152254192_AddedScore.resx">
+      <DependentUpon>202104152254192_AddedScore.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

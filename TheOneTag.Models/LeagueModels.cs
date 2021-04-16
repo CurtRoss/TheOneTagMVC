@@ -91,11 +91,18 @@ namespace TheOneTag.Models
         [UIHint("Starred")]
         [Display(Name = "Is Playing this Round?")]
         public bool IsStarred { get; set; }
+        public int RoundScore { get; set; }
 
     }
     public class PlayerEdit
     {
         public string PlayerId { get; set; }
         public bool IsStarred { get; set; }
+    }
+
+    public class UserLeagueEdit
+    {
+        public int Score { get; set; }
+        
     }
 }

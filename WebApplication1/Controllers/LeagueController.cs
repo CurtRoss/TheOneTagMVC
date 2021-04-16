@@ -131,13 +131,21 @@ namespace WebApplication1.Controllers
 
 
         [HttpPost, ActionName("PlayLeagueRound"), Authorize]
-        public ActionResult PlayLeagueRound(PlayARound model)
+        public ActionResult PlayRound(int id)
         {
             //This should take the PlayRound model and use the information to reorder the players and edit the players ranking in the UserLeague junction table entity.
             var service = CreateLeagueService();
 
-            service.PlayLeagueRound();
+            service.PlayLeagueRound(id);
             //I want to return a view of the League with the Players in their new ranking.
+            return RedirectToAction("Details");
+        }
+
+        public ActionResult UserLeagueEdit(UserLeagueEdit model, string userId)
+        {
+            var service = CreateLeagueService();
+
+            service.UpdateUserLeagueScore(model, userId);
             return RedirectToAction("Details");
         }
 
