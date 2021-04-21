@@ -106,7 +106,7 @@ namespace TheOneTag.Services
                 var entity =
                     ctx
                     .Leagues
-                    .Single(e => e.LeagueId == model.LeagueId && e.OwnerId == _userId);
+                    .SingleOrDefault(e => e.LeagueId == model.LeagueId && e.OwnerId == _userId);
 
                 entity.LeagueName = model.LeagueName;
                 entity.ZipCode = model.LeagueZipCode;
@@ -170,7 +170,7 @@ namespace TheOneTag.Services
 
             }
         }
-        public bool UpdateUserLeagueScore(UserLeagueEdit model,string userId)
+        public bool UpdateUserLeagueScore(UserLeagueEdit model)
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -178,7 +178,7 @@ namespace TheOneTag.Services
                     ctx
                     .UserLeagues
                     .SingleOrDefault
-                    (e => e.UserId == userId && e.User.IsStarred == true);
+                    (e => e.UserId == model.ID && e.LeagueId == model.LeagueId);
 
 
                 if(entity is null)
@@ -210,14 +210,14 @@ namespace TheOneTag.Services
                     .Where(e => e.User.IsStarred == true && e.LeagueId == id);
                 List<UserLeague> testing = query.ToList();
                 
-                var playerList = new List<ApplicationUser>();
+                //var playerList = new List<ApplicationUser>();
                 var rankList = new List<int>();
                 var league = ctx.UserLeagues.Find(id);
 
-                foreach (var ul in query)
+                foreach (var ul in testing)
                 {
-                    playerList.Add(ul.User);
-                    rankList.Add(ul.User.Score);
+                    //playerList.Add(ul.User);
+                    rankList.Add(ul.Ranking);
                 }
 
                 //Sort the Ranks of the players
@@ -225,16 +225,26 @@ namespace TheOneTag.Services
 
                 //Take all instances of UserLeague and sort them by score
                 var newList = query.ToList();
-                newList.Sort((x, y) => x.User.Score.CompareTo(y.User.Score));
+                //newList.Sort((x, y) => x.RoundScore.CompareTo(y.RoundScore));
+                newList.Sort(
+                    delegate (UserLeague ul1, UserLeague ul2)
+                    {
+                        if (ul1.RoundScore == ul2.RoundScore)
+                        {
+                            return ul1.Ranking.CompareTo(ul2.Ranking);
+                        }
+                        return ul1.RoundScore.CompareTo(ul2.RoundScore);
+                    }
+                    );
 
 
                 //for each player, give them their new ranking based on their score
-                for (int i = 0; i < playerList.Count; i++)
+                for (int i = 0; i < rankList.Count; i++)
                 {
                     newList[i].Ranking = rankList[i];
                 }
 
-                return ctx.SaveChanges() == 1;
+                return ctx.SaveChanges() == testing.Count;
             }
         }
 

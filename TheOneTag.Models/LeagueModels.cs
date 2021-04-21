@@ -102,7 +102,10 @@ namespace TheOneTag.Models
 
     public class UserLeagueEdit
     {
+        public string PlayerName { get; set; }
         public int Score { get; set; }
-        
+        public string ID { get; set; }
+        public int LeagueId { get; set; }
+
     }
 }

@@ -66,6 +66,7 @@ namespace WebApplication1.Controllers
             return View(model);
         }
 
+
         [HttpPost, ValidateAntiForgeryToken, Authorize]
         public ActionResult Edit(int id, LeagueEdit model)
         {
@@ -125,28 +126,50 @@ namespace WebApplication1.Controllers
             //User needs to checkmark all players who are playing the round, return PlayRound Model with all info added for each player playing.
             var service = CreateLeagueService();
             var model = service.GetPlayerListByLeagueId(id);
+            ViewBag.leagueId = id;
             return View(model);
             
         }
 
 
-        [HttpPost, ActionName("PlayLeagueRound"), Authorize]
+        [Authorize]
         public ActionResult PlayRound(int id)
         {
             //This should take the PlayRound model and use the information to reorder the players and edit the players ranking in the UserLeague junction table entity.
             var service = CreateLeagueService();
 
-            service.PlayLeagueRound(id);
+            bool testing = service.PlayLeagueRound(id);
+            ViewBag.id = id;
+            
             //I want to return a view of the League with the Players in their new ranking.
-            return RedirectToAction("Details");
+            return RedirectToAction($"PlayLeagueRound/{id}");
         }
 
-        public ActionResult UserLeagueEdit(UserLeagueEdit model, string userId)
+        
+        public ActionResult UserLeagueEdit(string id, int leagueId)
+        {
+            var service = CreateLeagueService();
+            var detail = service.GetPlayerById(id);
+            var model =
+                new UserLeagueEdit
+                {
+                    Score = detail.Score,
+                    ID = detail.Id,
+                    LeagueId = leagueId,
+                    PlayerName = detail.FirstName + " " + detail.LastName
+                };
+            return View(model);
+        }
+
+        //Create UserLeagueEdit View
+        [HttpPost, ValidateAntiForgeryToken, Authorize]
+        public ActionResult UserLeagueEdit(UserLeagueEdit model)
         {
             var service = CreateLeagueService();
 
-            service.UpdateUserLeagueScore(model, userId);
-            return RedirectToAction("Details");
+            
+            service.UpdateUserLeagueScore(model);
+            return RedirectToAction("PlayLeagueRound");
         }
 
         private LeagueService CreateLeagueService()

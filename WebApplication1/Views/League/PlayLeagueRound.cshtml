@@ -61,7 +61,7 @@
     
 
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.PlayerId }) |
+                @Html.ActionLink("Edit", "UserLeagueEdit", new {  id=item.PlayerId, leagueId =ViewBag.leagueId }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
@@ -70,6 +70,10 @@
     }
 
 </table>
+
+<p>
+    @Html.ActionLink("Submit Scores", "PlayRound", new { id = ViewBag.leagueId})
+</p>
 
 
 
