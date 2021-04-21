@@ -138,7 +138,9 @@ namespace WebApplication1.Controllers
             //This should take the PlayRound model and use the information to reorder the players and edit the players ranking in the UserLeague junction table entity.
             var service = CreateLeagueService();
 
-            bool testing = service.PlayLeagueRound(id);
+            if (!service.PlayLeagueRound(id))
+                ModelState.AddModelError("", "Your ranks have not been updated.");
+
             ViewBag.id = id;
             
             //I want to return a view of the League with the Players in their new ranking.

@@ -199,17 +199,22 @@ namespace TheOneTag.Services
                 var query = ctx
                     .UserLeagues
                     .Where(e => e.User.IsStarred == true && e.LeagueId == id);
-                List<UserLeague> testing = query.ToList();
+                List<UserLeague> playerList = query.ToList();
                 
-                //var playerList = new List<ApplicationUser>();
+                
                 var rankList = new List<int>();
-                var league = ctx.UserLeagues.Find(id);
+                //var league = ctx.UserLeagues.Find(id);
 
-                foreach (var ul in testing)
+
+                foreach (var ul in playerList)
                 {
                     //playerList.Add(ul.User);
                     rankList.Add(ul.Ranking);
                 }
+
+                var oldRankList = new List<int>();
+                
+
 
                 //Sort the Ranks of the players
                 rankList.Sort();
@@ -228,6 +233,11 @@ namespace TheOneTag.Services
                     }
                     );
 
+                // At this point the UserLeagues are sorted by top score to bottom score, but their rank hasnt changed, so I should be able to pull thier old ranks here
+                for (int i = 0; i < newList.Count; i++)
+                {
+                    oldRankList.Add(newList[i].Ranking);
+                }
 
                 // for each player, give them their new ranking based on their score
                 for (int i = 0; i < rankList.Count; i++)
@@ -235,13 +245,32 @@ namespace TheOneTag.Services
                     newList[i].Ranking = rankList[i];
                 }
 
+                for (int i = 0; i < playerList.Count; i++)
+                {
+                    var activity = new Activity
+                    {
+                        LeagueId = newList[i].LeagueId,
+                        PlayerId = newList[i].UserId,
+                        LeagueZipCode = newList[i].League.ZipCode,
+                        PlayerZipCode = newList[i].User.ZipCode,
+                        DateOfActivity = DateTimeOffset.Now,
+                        EndingRank = newList[i].Ranking,
+                        StartingRank = oldRankList[i]
+                        
+                    };
+
+                    ctx.Activities.Add(activity);
+                    ctx.SaveChanges();
+                }
+
                 // reset all scores to 0
                 foreach (UserLeague ul in newList)
                 {
                     ul.RoundScore = 0;
+                    ul.User.IsStarred = false;
                 }
 
-                return ctx.SaveChanges() == testing.Count;
+                return ctx.SaveChanges() == playerList.Count;
             }
         }
 
@@ -251,7 +280,7 @@ namespace TheOneTag.Services
             {
                 var entity = ctx
                     .Users
-                    .Single(e => e.Id == id);
+                    .SingleOrDefault(e => e.Id == id);
 
                 return entity;
 

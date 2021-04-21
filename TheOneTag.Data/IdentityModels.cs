@@ -46,6 +46,7 @@ namespace TheOneTag.Data
 
         public DbSet<League> Leagues { get; set; }
         public DbSet<UserLeague> UserLeagues { get; set; }
+        public DbSet <Activity> Activities { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
