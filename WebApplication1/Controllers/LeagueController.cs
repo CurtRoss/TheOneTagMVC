@@ -169,7 +169,7 @@ namespace WebApplication1.Controllers
 
             
             service.UpdateUserLeagueScore(model);
-            return RedirectToAction("PlayLeagueRound");
+            return RedirectToAction($"PlayLeagueRound/{model.LeagueId}");
         }
 
         private LeagueService CreateLeagueService()

@@ -92,7 +92,8 @@ namespace TheOneTag.Services
                         FirstName = e.User.FirstName,
                         LastName = e.User.LastName,
                         LeagueRanking = e.Ranking,
-                        IsStarred = e.User.IsStarred
+                        IsStarred = e.User.IsStarred,
+                        RoundScore = e.RoundScore
                     }
                     );
                 return query.ToArray();
@@ -185,20 +186,10 @@ namespace TheOneTag.Services
                 {
                     return false;
                 }
-                //var scoreList = new List<int>();
-                //foreach (var item in model)
-                //{
-                    
-                //    scoreList.Add(item.RoundScore);
-                //}
-
-
-                //foreach (UserLeague ul in query)
-                //{
-                    entity.RoundScore = model.Score;
+                
+                entity.RoundScore = model.Score;
                 return ctx.SaveChanges() == 1;
-                //}
-                //return false;
+                
             }
         }
         public bool PlayLeagueRound(int id)
@@ -225,7 +216,7 @@ namespace TheOneTag.Services
 
                 //Take all instances of UserLeague and sort them by score
                 var newList = query.ToList();
-                //newList.Sort((x, y) => x.RoundScore.CompareTo(y.RoundScore));
+                
                 newList.Sort(
                     delegate (UserLeague ul1, UserLeague ul2)
                     {
@@ -238,10 +229,16 @@ namespace TheOneTag.Services
                     );
 
 
-                //for each player, give them their new ranking based on their score
+                // for each player, give them their new ranking based on their score
                 for (int i = 0; i < rankList.Count; i++)
                 {
                     newList[i].Ranking = rankList[i];
+                }
+
+                // reset all scores to 0
+                foreach (UserLeague ul in newList)
+                {
+                    ul.RoundScore = 0;
                 }
 
                 return ctx.SaveChanges() == testing.Count;
