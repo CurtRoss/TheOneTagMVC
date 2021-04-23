@@ -18,7 +18,7 @@ namespace TheOneTag.Data
 
         [ForeignKey(nameof(League))]
         public int LeagueId { get; set; }
-        public League League { get; set; }
+        public virtual League League { get; set; }
 
         public DateTimeOffset DateOfActivity { get; set; }
         public int PlayerZipCode { get; set; }

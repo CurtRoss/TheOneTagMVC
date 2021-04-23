@@ -1,0 +1,57 @@
+﻿@model IEnumerable<TheOneTag.Models.ActivityPlayerLeagueListItem>
+
+@{
+    ViewBag.Title = "GetLeaguesForPlayer";
+}
+
+<h2>GetLeaguesForPlayer</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LeagueName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeagueRanking)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeagueRoundsPlayed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BiggestRankingJump)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AverageRanking)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LeagueName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LeagueRanking)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LeagueRoundsPlayed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BiggestRankingJump)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AverageRanking)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

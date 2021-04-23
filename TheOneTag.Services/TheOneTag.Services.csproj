@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityService.cs" />
     <Compile Include="LeagueService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
