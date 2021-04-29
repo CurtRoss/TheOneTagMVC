@@ -24,6 +24,14 @@ namespace TheOneTag.Data
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                return FirstName + " " + LastName;
+            }
+        }
         [Required]
         public int ZipCode { get; set; }
         public int? PdgaNum { get; set; }

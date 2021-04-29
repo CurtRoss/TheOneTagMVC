@@ -9,6 +9,7 @@ using TheOneTag.Services;
 
 namespace WebApplication1.Controllers
 {
+    
     public class LeagueController : Controller
     {
         // GET: League
@@ -104,6 +105,30 @@ namespace WebApplication1.Controllers
             service.DeleteLeague(id);
             TempData["SaveResult"] = "Your league was deleted";
             return RedirectToAction("Index");
+        }
+
+        public ActionResult DeletePlayerFromLeague(string id, int leagueId)
+        {
+            var service = CreateLeagueService();
+            var detail = service.GetPlayerById1(id, leagueId);
+           
+            return View(detail);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ActionName("DeletePlayerFromLeague")]
+        public ActionResult DeletePlayerFromLeagues(string id, int leagueId)
+        {
+            if (!ModelState.IsValid)
+                return HttpNotFound();
+
+            var service = CreateLeagueService();
+            service.DeletePlayerFromLeague(id, leagueId);
+            TempData["SaveResult"] = "Player was deleted";
+            
+            return RedirectToAction($"PlayLeagueRound/{leagueId}");
+
         }
 
         [ActionName("AddPlayer"), Authorize]

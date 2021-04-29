@@ -56,10 +56,15 @@
         <td>
             @Html.DisplayFor(modelItem => item.LeagueZipCode)
         </td>
+        
         <td>
-            @Html.ActionLink("Edit", "Edit", new {  id=item.LeagueId  }) |
-            @Html.ActionLink("Details", "Details", new {  id=item.LeagueId  }) |
-            @Html.ActionLink("Delete", "Delete", new {  id=item.LeagueId  })
+            @if (item.OwnerId == item.CurrentUser)
+
+            {
+                @Html.ActionLink("Delete | ", "Delete", new {  id=item.LeagueId  }) 
+                @Html.ActionLink("Edit | ", "Edit", new {  id=item.LeagueId  }) 
+            }
+            @Html.ActionLink("Details", "Details", new {  id=item.LeagueId  }) 
         </td>
         
     </tr>

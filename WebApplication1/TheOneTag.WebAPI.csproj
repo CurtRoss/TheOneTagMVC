@@ -257,6 +257,7 @@
     <Content Include="Views\League\UserLeagueEdit.cshtml" />
     <Content Include="Views\Activity\Index.cshtml" />
     <Content Include="Views\Activity\GetLeaguesForPlayer.cshtml" />
+    <Content Include="Views\League\DeletePlayerFromLeague.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

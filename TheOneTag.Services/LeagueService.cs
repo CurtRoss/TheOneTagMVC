@@ -51,7 +51,9 @@ namespace TheOneTag.Services
                             LeagueId = e.LeagueId,
                             LeagueName = e.LeagueName,
                             LeagueZipCode = e.ZipCode,
-                            DateCreated = e.LeagueCreated
+                            DateCreated = e.LeagueCreated,
+                            OwnerId = e.OwnerId.ToString(),
+                            CurrentUser = _userId.ToString()
                         }
                     );
                 return query.ToArray();
@@ -66,14 +68,36 @@ namespace TheOneTag.Services
                     .Leagues
                     .Single(e => e.LeagueId == id);
 
-                return
-                    new LeagueDetail
-                    {
-                        LeagueId = entity.LeagueId,
-                        LeagueName = entity.LeagueName,
-                        ZipCode = entity.ZipCode,
-                        LeagueCreated = entity.LeagueCreated
-                    };
+                if (ctx.UserLeagues.SingleOrDefault(e => e.LeagueId == id && e.Ranking == 1) != null)
+                {
+                    return
+                        new LeagueDetail
+                        {
+                            LeagueId = entity.LeagueId,
+                            LeagueOwnerId = entity.OwnerId.ToString(),
+                            CurrentUser = _userId.ToString(),
+                            LeagueName = entity.LeagueName,
+                            ZipCode = entity.ZipCode,
+                            LeagueCreated = entity.LeagueCreated,
+                            NumberOfPlayers = ctx.UserLeagues.Where(e => e.LeagueId == id).ToArray().Count(),
+                            PlayerName = ctx.UserLeagues.SingleOrDefault(e => e.LeagueId == id && e.Ranking == 1).User.FullName
+                        };
+                }
+                else
+                {
+                    return
+                        new LeagueDetail
+                        {
+                            LeagueId = entity.LeagueId,
+                            LeagueName = entity.LeagueName,
+                            ZipCode = entity.ZipCode,
+                            LeagueCreated = entity.LeagueCreated,
+                            NumberOfPlayers = ctx.UserLeagues.Where(e => e.LeagueId == id).ToArray().Count(),
+                            PlayerName = "Nobody is in this league yet!"
+                        };
+                }
+
+
             }
         }
 
@@ -134,6 +158,52 @@ namespace TheOneTag.Services
             }
         }
 
+        public bool DeletePlayerFromLeague(string id, int leagueId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+
+                var entity =
+                    ctx
+                    .UserLeagues
+                    .SingleOrDefault(e => e.UserId == id && e.LeagueId == leagueId);
+
+                if (entity is null)
+                {
+                    return false;
+                }
+
+                ctx.UserLeagues.Remove(entity);
+
+                if (ctx.SaveChanges() == 1)
+                {
+                    var query =
+                        ctx
+                        .UserLeagues
+                        .Where(e => e.LeagueId == leagueId);
+
+                    var playerList = query.ToList();
+
+                    playerList.Sort(
+                     delegate (UserLeague ul1, UserLeague ul2)
+                     {
+                         return ul1.Ranking.CompareTo(ul2.Ranking);
+                     }
+                     );
+
+                    for (int i = 0; i < playerList.Count; i++)
+                    {
+                        playerList[i].Ranking = i+1;
+                    }
+
+                    return ctx.SaveChanges() == playerList.Count;
+                }
+
+                return false;
+            }
+        }
+
+
         public bool AddPlayerToLeague(int id)
         {
             using (var ctx = new ApplicationDbContext())
@@ -182,14 +252,14 @@ namespace TheOneTag.Services
                     (e => e.UserId == model.ID && e.LeagueId == model.LeagueId);
 
 
-                if(entity is null)
+                if (entity is null)
                 {
                     return false;
                 }
-                
+
                 entity.RoundScore = model.Score;
                 return ctx.SaveChanges() == 1;
-                
+
             }
         }
         public bool PlayLeagueRound(int id)
@@ -200,8 +270,8 @@ namespace TheOneTag.Services
                     .UserLeagues
                     .Where(e => e.User.IsStarred == true && e.LeagueId == id);
                 List<UserLeague> playerList = query.ToList();
-                
-                
+
+
                 var rankList = new List<int>();
                 //var league = ctx.UserLeagues.Find(id);
 
@@ -213,7 +283,7 @@ namespace TheOneTag.Services
                 }
 
                 var oldRankList = new List<int>();
-                
+
 
 
                 //Sort the Ranks of the players
@@ -221,7 +291,7 @@ namespace TheOneTag.Services
 
                 //Take all instances of UserLeague and sort them by score
                 var newList = query.ToList();
-                
+
                 newList.Sort(
                     delegate (UserLeague ul1, UserLeague ul2)
                     {
@@ -256,7 +326,7 @@ namespace TheOneTag.Services
                         DateOfActivity = DateTimeOffset.Now,
                         EndingRank = newList[i].Ranking,
                         StartingRank = oldRankList[i]
-                        
+
                     };
 
                     ctx.Activities.Add(activity);
@@ -283,6 +353,21 @@ namespace TheOneTag.Services
                     .SingleOrDefault(e => e.Id == id);
 
                 return entity;
+
+            }
+        }
+
+        public UserLeagueDelete GetPlayerById1(string id, int leagueId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.UserLeagues.SingleOrDefault(e => e.UserId == id && e.LeagueId == leagueId);
+                return new UserLeagueDelete
+                {
+                    LeagueId = entity.LeagueId,
+                    PlayerName = entity.User.FullName,
+                    UserId = entity.UserId
+                };
 
             }
         }

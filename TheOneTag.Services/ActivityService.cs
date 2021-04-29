@@ -56,6 +56,7 @@ namespace TheOneTag.Services
                 if (activities.Count == 0)
                     return null;
 
+                
                 var query =
                     ctx
                     .UserLeagues
@@ -65,12 +66,14 @@ namespace TheOneTag.Services
                         {
                             LeagueName = e.League.LeagueName,
                             LeagueRanking = e.Ranking,
-                            AverageRanking = activities.Where(x => x.LeagueId == e.LeagueId).ToArray().Average(x => x.EndingRank),
-                            BiggestRankingJump = activities.Where(x => x.LeagueId == e.LeagueId).ToArray().Max(x => x.RankChange),
-                            LeagueRoundsPlayed = activities.Where(x => x.LeagueId == e.LeagueId).Count()
-                            
+                            AverageRanking = activities.Where(x => x.LeagueId == e.LeagueId).DefaultIfEmpty().ToArray()[0] == null ? 0 : activities.Where(x => x.LeagueId == e.LeagueId).ToArray().Average(x => x.EndingRank),
+                            BiggestRankingJump = activities.Where(x => x.LeagueId == e.LeagueId) == null ? 0 : activities.Where(x => x.LeagueId == e.LeagueId).ToArray().Max(x => x.RankChange),
+                            LeagueRoundsPlayed = activities.Where(x => x.LeagueId == e.LeagueId) == null ? 0 : activities.Where(x => x.LeagueId == e.LeagueId).Count()
+
                         });
-                
+
+
+                    
                  return query.ToArray();
             }
         }

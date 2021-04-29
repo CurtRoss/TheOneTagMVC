@@ -19,10 +19,10 @@ namespace TheOneTag.Models
         [Display(Name ="League Zip Code")]
         public int LeagueZipCode { get; set; }
         public DateTimeOffset DateCreated { get; set; }
+        public string OwnerId { get; set; }
+        public string CurrentUser { get; set; }
 
-        //Add number of players in the future.
 
-        //Add bool IsAlreadyMember to track users leagues from this view.
     }
     public class LeagueCreate
     {
@@ -45,6 +45,9 @@ namespace TheOneTag.Models
         [Display(Name = "League ID")]
         public int LeagueId { get; set; }
 
+        public string LeagueOwnerId { get; set; }
+        public string CurrentUser { get; set; }
+
         [Display(Name = "League Name")]
         public string LeagueName { get; set; }
 
@@ -53,6 +56,13 @@ namespace TheOneTag.Models
 
         [Display(Name = "League Created Date")]
         public DateTimeOffset LeagueCreated { get; set; }
+
+        [Display(Name ="How many players are in this league?")]
+        public int NumberOfPlayers { get; set; }
+
+        [Display(Name ="Name of Current 1 Tag Holder")]
+        public string PlayerName { get; set; }
+
     }
 
     public class LeagueEdit
@@ -106,6 +116,14 @@ namespace TheOneTag.Models
         public int Score { get; set; }
         public string ID { get; set; }
         public int LeagueId { get; set; }
+
+    }
+
+   public class UserLeagueDelete
+    {
+        public string PlayerName { get; set; }
+        public int LeagueId { get; set; }
+        public string UserId { get; set; }
 
     }
 }

@@ -24,6 +24,11 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("The One Tag Players", "Index", "Activity")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Leagues", "Index", "League")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
