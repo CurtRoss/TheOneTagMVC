@@ -117,7 +117,9 @@ namespace TheOneTag.Services
                         LastName = e.User.LastName,
                         LeagueRanking = e.Ranking,
                         IsStarred = e.User.IsStarred,
-                        RoundScore = e.RoundScore
+                        RoundScore = e.RoundScore,
+                        OwnerId = e.League.OwnerId.ToString(),
+                        CurrentUserId = _userId.ToString()
                     }
                     );
                 return query.ToArray();

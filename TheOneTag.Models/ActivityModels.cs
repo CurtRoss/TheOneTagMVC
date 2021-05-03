@@ -25,10 +25,12 @@ namespace TheOneTag.Models
 
     public class ActivityPlayerLeagueListItem
     {
+        public string PlayerName { get; set; }
         public string LeagueName { get; set; }
         public int LeagueRanking { get; set; }
         public int LeagueRoundsPlayed { get; set; }
         public int? BiggestRankingJump { get; set; }
         public double AverageRanking { get; set; }
+        public int LeagueId { get; set; }
     }
 }

@@ -3,14 +3,14 @@
 @{
 
     ViewBag.Title = "PlayLeagueRound";
-    
+
 }
 
 <h2>PlayLeagueRound</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
-   
+
 </p>
 <table class="table">
     <tr>
@@ -57,13 +57,16 @@
                 @Html.DisplayFor(modelItem => item.RoundScore)
             </td>
 
-        
-    
+
+
 
             <td>
-                @Html.ActionLink("Edit", "UserLeagueEdit", new {  id=item.PlayerId, leagueId =ViewBag.leagueId }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete Player", "DeletePlayerFromLeague", new {  id = item.PlayerId, leagueId = ViewBag.leagueId  })
+                @Html.ActionLink("Edit Score", "UserLeagueEdit", new { id = item.PlayerId, leagueId = ViewBag.leagueId }) |
+
+                @if (item.OwnerId == item.CurrentUserId)
+                {
+                    @Html.ActionLink("Delete Player", "DeletePlayerFromLeague", new { id = item.PlayerId, leagueId = ViewBag.leagueId })
+                }
             </td>
 
         </tr>
@@ -72,16 +75,12 @@
 </table>
 
 <p>
-    @Html.ActionLink("Submit Scores", "PlayRound", new { id = ViewBag.leagueId})
+    @Html.ActionLink("Submit Scores", "PlayRound", new { id = ViewBag.leagueId })
 </p>
 
 
 
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Play Round" class="btn btn-default" />
-    </div>
-</div>
+
 
 @section scripts{
     <script language="javascript" type="text/javascript">

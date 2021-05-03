@@ -16,6 +16,8 @@ namespace TheOneTag.Services
             _userId = userId;
         }
 
+        public ActivityService() { }
+
         public IEnumerable<ActivityPlayerListItem> GetAllApplicationUsers()
         {
             using (var ctx = new ApplicationDbContext())
@@ -64,6 +66,8 @@ namespace TheOneTag.Services
                     .Select(
                         e => new ActivityPlayerLeagueListItem
                         {
+                            PlayerName = e.User.FullName,
+                            LeagueId = e.LeagueId,
                             LeagueName = e.League.LeagueName,
                             LeagueRanking = e.Ranking,
                             AverageRanking = activities.Where(x => x.LeagueId == e.LeagueId).DefaultIfEmpty().ToArray()[0] == null ? 0 : activities.Where(x => x.LeagueId == e.LeagueId).ToArray().Average(x => x.EndingRank),

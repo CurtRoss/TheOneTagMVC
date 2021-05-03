@@ -22,21 +22,35 @@ namespace WebApplication1.Controllers
         {
             var service = CreateActivityService();
             var model = service.GetAllLeaguesForPlayer(id);
+            var player = model.FirstOrDefault().PlayerName;
 
             if (model != null)
+            {
+                ViewBag.User = $"{player}'s Leagues";
                 return View(model);
 
+            }
+
             ModelState.AddModelError("", "Player has not played any League Rounds");
-            
+
             return RedirectToAction("Index");
-               
+
         }
 
         private ActivityService CreateActivityService()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var service = new ActivityService(userId);
-            return service;
+
+            if (userId != null)
+            {
+                var service = new ActivityService(userId);
+                return service;
+            }
+
+            var serviceNoLogin = new ActivityService();
+            return serviceNoLogin;
         }
+
+
     }
 }

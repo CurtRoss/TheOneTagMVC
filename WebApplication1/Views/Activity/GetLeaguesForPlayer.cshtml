@@ -3,54 +3,46 @@
 @{
     ViewBag.Title = "GetLeaguesForPlayer";
 }
-<h2>GetLeaguesForPlayer</h2>
+<br />
+<br />
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.LeagueName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LeagueRanking)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LeagueRoundsPlayed)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BiggestRankingJump)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AverageRanking)
-        </th>
-        <th></th>
-    </tr>
+<h2>@Html.ViewBag.User </h2>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.LeagueName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LeagueRanking)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LeagueRoundsPlayed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BiggestRankingJump)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AverageRanking)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+<br />
+<br />
 
-</table>
+<div class="player-league-board">
+    @foreach (var item in Model)
+    {
+        <div class="card-container col-md-3 col-sm-6">
+            <div class="league-card">
+                <div class="league-head">
+                    @Html.DisplayFor(modelItem => item.LeagueName)
+                </div>
+                <div class="league-body">
+                    <div class="league-detail">
+                        League Ranking:
+                        @Html.DisplayFor(modelItem => item.LeagueRanking)
+                        <br />
+                        Average Ranking:
+                        @Html.DisplayFor(modelItem => item.AverageRanking)
+                        <br />
+                        Biggest Rank Jump:
+                        @Html.DisplayFor(modelItem => item.BiggestRankingJump)
+                        <br />
+                        League Rounds This Person Has Played:
+                        @Html.DisplayFor(modelItem => item.LeagueRoundsPlayed)
+                        <br />
+                        @Html.ActionLink("Details", "Details", "League", new { id = item.LeagueId }, new { @style = "", @class = "link-text" })
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<br />
+
+
+
+

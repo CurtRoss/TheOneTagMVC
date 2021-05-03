@@ -22,3 +22,20 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/*.league-card{
+    border: 1px solid black;
+}
+
+.league-head{
+    font-size: large;
+    font-weight: bold;
+}
+
+.league-body{
+    background-color: black;
+}
+
+.league-detail{
+    color: white;
+}*/

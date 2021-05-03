@@ -102,6 +102,8 @@ namespace TheOneTag.Models
         [Display(Name = "Is Playing this Round?")]
         public bool IsStarred { get; set; }
         public int RoundScore { get; set; }
+        public string OwnerId { get; set; }
+        public string CurrentUserId { get; set; }
 
     }
     public class PlayerEdit
