@@ -38,8 +38,6 @@ namespace WebApplication1.Controllers
                     ViewBag.User = $"{player}'s Leagues";
                     return View(model);
                 }
-
-
             }
 
             ModelState.AddModelError("", "Player has not played any League Rounds");

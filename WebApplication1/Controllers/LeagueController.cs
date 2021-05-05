@@ -205,5 +205,19 @@ namespace WebApplication1.Controllers
             var service = new LeagueService(userId);
             return service;
         }
+
+        // Service to re-order tags if records have been deleted from the database.
+        public ActionResult ResetRanks(int leagueId)
+        {
+            var service = CreateLeagueService();
+
+            if (service.ResetScores(leagueId) == true)
+            return RedirectToAction($"PlayLeagueRound/{leagueId}");
+
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
     }
 }

@@ -195,7 +195,7 @@ namespace TheOneTag.Services
 
                     for (int i = 0; i < playerList.Count; i++)
                     {
-                        playerList[i].Ranking = i+1;
+                        playerList[i].Ranking = i + 1;
                     }
 
                     return ctx.SaveChanges() == playerList.Count;
@@ -387,6 +387,31 @@ namespace TheOneTag.Services
                 entity.IsStarred = model.IsStarred;
 
                 return ctx.SaveChanges() == 1;
+            }
+        }
+        public bool ResetScores(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query =
+                    ctx
+                    .UserLeagues
+                    .Where(e => e.LeagueId == id)
+                    .ToList();
+
+                List<UserLeague> playerList = query.ToList();
+
+                playerList.Sort(
+                    delegate (UserLeague ul1, UserLeague ul2)
+                    {
+                        return ul1.Ranking.CompareTo(ul2.Ranking);
+                    });
+
+                for (int i = 0; i < playerList.Count(); i++)
+                {
+                    playerList[i].Ranking = i + 1;
+                }
+                return ctx.SaveChanges() == playerList.Count();
             }
         }
 
