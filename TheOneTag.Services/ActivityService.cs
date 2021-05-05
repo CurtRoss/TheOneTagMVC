@@ -32,7 +32,8 @@ namespace TheOneTag.Services
                         FirstName = e.FirstName,
                         LastName = e.LastName,
                         ZipCode = e.ZipCode,
-                        PlayerId = e.Id
+                        PlayerId = e.Id,
+                        
                     }
                     );
 
@@ -46,14 +47,16 @@ namespace TheOneTag.Services
             }
         }
 
-        public IEnumerable<ActivityPlayerLeagueListItem> GetAllLeaguesForPlayer(string id)
+        public IEnumerable<ActivityPlayerLeagueListItem> GetAllLeaguesForPlayer(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var activities =
                     ctx
                     .Activities
-                    .Where(e => e.PlayerId == id).ToList();
+                    .Where(e => e.IdHash == id).ToList();
+
+                    //.Where(e => e.PlayerId == id).ToList();
 
                 if (activities.Count == 0)
                     return null;
@@ -62,7 +65,9 @@ namespace TheOneTag.Services
                 var query =
                     ctx
                     .UserLeagues
-                    .Where(e => e.UserId == id).ToList()
+                    .Where(e => e.IdHash == id).ToList()
+
+                    //.Where(e => e.UserId == id).ToList()
                     .Select(
                         e => new ActivityPlayerLeagueListItem
                         {
