@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -23,9 +24,20 @@ namespace TheOneTag.Data
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                return FirstName + " " + LastName;
+            }
+        }
         [Required]
         public int ZipCode { get; set; }
         public int? PdgaNum { get; set; }
+        [DefaultValue(false)]
+        public bool IsStarred { get; set; }
+        public int Score { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -42,6 +54,7 @@ namespace TheOneTag.Data
 
         public DbSet<League> Leagues { get; set; }
         public DbSet<UserLeague> UserLeagues { get; set; }
+        public DbSet <Activity> Activities { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -54,6 +67,8 @@ namespace TheOneTag.Data
                 .Add(new IdentityUserLoginConfiguration())
                 .Add(new IdentityUserRoleConfiguration());
         }
+
+        
     }
 
     public class IdentityUserLoginConfiguration : EntityTypeConfiguration<IdentityUserLogin>

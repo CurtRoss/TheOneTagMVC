@@ -9,6 +9,7 @@ using TheOneTag.Services;
 
 namespace WebApplication1.Controllers
 {
+    
     public class LeagueController : Controller
     {
         // GET: League
@@ -66,6 +67,7 @@ namespace WebApplication1.Controllers
             return View(model);
         }
 
+
         [HttpPost, ValidateAntiForgeryToken, Authorize]
         public ActionResult Edit(int id, LeagueEdit model)
         {
@@ -105,6 +107,30 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult DeletePlayerFromLeague(string id, int leagueId)
+        {
+            var service = CreateLeagueService();
+            var detail = service.GetPlayerById1(id, leagueId);
+           
+            return View(detail);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ActionName("DeletePlayerFromLeague")]
+        public ActionResult DeletePlayerFromLeagues(string id, int leagueId)
+        {
+            if (!ModelState.IsValid)
+                return HttpNotFound();
+
+            var service = CreateLeagueService();
+            service.DeletePlayerFromLeague(id, leagueId);
+            TempData["SaveResult"] = "Player was deleted";
+            
+            return RedirectToAction($"PlayLeagueRound/{leagueId}");
+
+        }
+
         [ActionName("AddPlayer"), Authorize]
         public ActionResult AddPlayerToLeague(int id)
         {
@@ -119,14 +145,59 @@ namespace WebApplication1.Controllers
             TempData["SaveResult"] = "Player was added to league.";
             return RedirectToAction("Index");
         }
+        
+        public ActionResult PlayLeagueRound(int id)
+        {
+            //User needs to checkmark all players who are playing the round, return PlayRound Model with all info added for each player playing.
+            var service = CreateLeagueService();
+            var model = service.GetPlayerListByLeagueId(id);
+            ViewBag.leagueId = id;
+            return View(model);
+            
+        }
 
-        //[ActionName("PlayRound"), Authorize]
-        //public void PlayLeagueRound(int id)
-        //{
-        //    var service = CreateLeagueService();
 
-        //    service.PlayARound(id);
-        //}
+        [Authorize]
+        public ActionResult PlayRound(int id)
+        {
+            //This should take the PlayRound model and use the information to reorder the players and edit the players ranking in the UserLeague junction table entity.
+            var service = CreateLeagueService();
+
+            if (!service.PlayLeagueRound(id))
+                ModelState.AddModelError("", "Your ranks have not been updated.");
+
+            ViewBag.id = id;
+            
+            //I want to return a view of the League with the Players in their new ranking.
+            return RedirectToAction($"PlayLeagueRound/{id}");
+        }
+
+        
+        public ActionResult UserLeagueEdit(string id, int leagueId)
+        {
+            var service = CreateLeagueService();
+            var detail = service.GetPlayerById(id);
+            var model =
+                new UserLeagueEdit
+                {
+                    Score = detail.Score,
+                    ID = detail.Id,
+                    LeagueId = leagueId,
+                    PlayerName = detail.FirstName + " " + detail.LastName
+                };
+            return View(model);
+        }
+
+        //Create UserLeagueEdit View
+        [HttpPost, ValidateAntiForgeryToken, Authorize]
+        public ActionResult UserLeagueEdit(UserLeagueEdit model)
+        {
+            var service = CreateLeagueService();
+
+            
+            service.UpdateUserLeagueScore(model);
+            return RedirectToAction($"PlayLeagueRound/{model.LeagueId}");
+        }
 
         private LeagueService CreateLeagueService()
         {

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<TheOneTag.Models.ActivityPlayerLeagueListItem>
+
+@{
+    ViewBag.Title = "GetLeaguesForPlayer";
+}
+<br />
+<br />
+
+<h2>@Html.ViewBag.User </h2>
+
+<br />
+<br />
+
+<div class="player-league-board">
+    @foreach (var item in Model)
+    {
+        <div class="card-container col-md-3 col-sm-6">
+            <div class="league-card">
+                <div class="league-head">
+                    @Html.DisplayFor(modelItem => item.LeagueName)
+                </div>
+                <div class="league-body">
+                    <div class="league-detail">
+                        League Ranking:
+                        @Html.DisplayFor(modelItem => item.LeagueRanking)
+                        <br />
+                        Average Ranking:
+                        @Html.DisplayFor(modelItem => item.AverageRanking)
+                        <br />
+                        Biggest Rank Jump:
+                        @Html.DisplayFor(modelItem => item.BiggestRankingJump)
+                        <br />
+                        League Rounds This Person Has Played:
+                        @Html.DisplayFor(modelItem => item.LeagueRoundsPlayed)
+                        <br />
+                        @Html.ActionLink("Details", "Details", "League", new { id = item.LeagueId }, new { @style = "", @class = "link-text" })
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<br />
+
+
+
+

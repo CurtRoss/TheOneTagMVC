@@ -15,13 +15,14 @@ namespace TheOneTag.Data
 
         [ForeignKey(nameof(League))]
         public int LeagueId { get; set; }
-        public League League { get; set; }
+        public virtual League League { get; set; }
 
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         [Required]
         public int Ranking { get; set; }
+        public int RoundScore { get; set; }
     }
 }
