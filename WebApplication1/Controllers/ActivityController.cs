@@ -31,9 +31,14 @@ namespace WebApplication1.Controllers
 
             if (model != null)
             {
-                string player = model.FirstOrDefault().PlayerName;
-                ViewBag.User = $"{player}'s Leagues";
-                return View(model);
+                var league = model.FirstOrDefault();
+                if (league != null)
+                {
+                    var player = league.PlayerName;
+                    ViewBag.User = $"{player}'s Leagues";
+                    return View(model);
+                }
+
 
             }
 

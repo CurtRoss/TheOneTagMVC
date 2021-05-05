@@ -33,8 +33,5 @@ namespace TheOneTag.Data
             }
         }
         public int IdHash { get; set; }
-
-
-
     }
 }
