@@ -32,6 +32,9 @@ namespace TheOneTag.Data
                 return StartingRank - EndingRank;
             }
         }
+        public int IdHash { get; set; }
+
+
 
     }
 }

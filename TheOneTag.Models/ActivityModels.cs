@@ -19,6 +19,13 @@ namespace TheOneTag.Models
                 return FirstName + " " + LastName;
             }
         }
+        public int IdHash
+        {
+            get
+            {
+                return PlayerId.GetHashCode();
+            }
+        }
 
         public int ZipCode { get; set; }
     }

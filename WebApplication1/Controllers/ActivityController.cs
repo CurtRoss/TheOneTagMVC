@@ -18,14 +18,20 @@ namespace WebApplication1.Controllers
             return View(model);
         }
 
-        public ActionResult GetLeaguesForPlayer(string id)
+        public ActionResult GetLeaguesForPlayer(int id)
         {
             var service = CreateActivityService();
             var model = service.GetAllLeaguesForPlayer(id);
-            var player = model.FirstOrDefault().PlayerName;
+
+            if (model is null)
+            {
+                return RedirectToAction("Index");
+                //TempData
+            }
 
             if (model != null)
             {
+                string player = model.FirstOrDefault().PlayerName;
                 ViewBag.User = $"{player}'s Leagues";
                 return View(model);
 

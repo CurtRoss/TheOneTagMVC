@@ -232,7 +232,8 @@ namespace TheOneTag.Services
                     {
                         LeagueId = id,
                         UserId = _userId.ToString(),
-                        Ranking = howManyPlayers + 1
+                        Ranking = howManyPlayers + 1,
+                        IdHash = _userId.ToString().GetHashCode()
                     };
                     ctx.UserLeagues.Add(entity);
 
@@ -327,7 +328,8 @@ namespace TheOneTag.Services
                         PlayerZipCode = newList[i].User.ZipCode,
                         DateOfActivity = DateTimeOffset.Now,
                         EndingRank = newList[i].Ranking,
-                        StartingRank = oldRankList[i]
+                        StartingRank = oldRankList[i],
+                        IdHash = newList[i].UserId.GetHashCode()
 
                     };
 
